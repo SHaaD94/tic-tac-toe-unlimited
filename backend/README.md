@@ -16,8 +16,6 @@ java -jar build/libs/backend.jar
 ### 2. Game
 
 Game statuses:
-- Searching for opponent
-- Canceled
 - In progress
 - Finished
 
@@ -29,14 +27,12 @@ Game statuses:
 ```
 2. GET /api/1.0/games/{session_id} - get session info
 
-3. DELETE /api/1.0/games/{session_id} - cancels specified session
-
 4. POST /api/1.0/games/{session_id} - adds user movement
 ```
 {   
     "player_id" : 1,
-    "x_coord" : 0, 
-    "y_coord" : 0 
+    "x" : 0, 
+    "y" : 0 
 }
 ```
 
