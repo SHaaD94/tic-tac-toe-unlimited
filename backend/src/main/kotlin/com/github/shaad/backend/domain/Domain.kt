@@ -3,7 +3,7 @@ package com.github.shaad.backend.domain
 data class UserId(val id: Long)
 data class UserScore(val score: Int)
 data class UserNick(val nick: String)
-data class User(val id: GameId, val nick: UserNick, val score: UserScore)
+data class User(val id: UserId, val nick: UserNick, val score: UserScore)
 
 enum class GameStatus {
     InProgress,

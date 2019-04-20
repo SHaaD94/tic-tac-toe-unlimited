@@ -6,7 +6,7 @@ import io.ktor.routing.get
 
 class GameController : Controller {
     override val setup: Routing.() -> Unit = {
-        get("/$apiPrefix/$v1Prefix/games") {
+        get("$v1ApiPrefix/games") {
             context.respond("Hello world")
         }
     }
