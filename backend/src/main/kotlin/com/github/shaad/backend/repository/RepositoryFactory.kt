@@ -14,6 +14,7 @@ abstract class BaseRepository : Repository {
 
 interface RepositoryFactory {
     fun getGameRepository(): GameRepository
+    fun getPlayerQueueRepository(): PlayerQueueRepository
     fun getUserRepository(): UserRepository
     fun getHighScoreRepository(): HighScoreRepository
 }
@@ -21,6 +22,10 @@ interface RepositoryFactory {
 private class RepositoryFactoryImpl : RepositoryFactory {
     override fun getGameRepository(): GameRepository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPlayerQueueRepository(): PlayerQueueRepository {
+        return PlayerQueueRepositoryImpl()
     }
 
     override fun getUserRepository(): UserRepository {

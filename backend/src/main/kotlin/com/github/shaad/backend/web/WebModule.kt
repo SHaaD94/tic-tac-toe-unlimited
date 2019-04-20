@@ -8,5 +8,6 @@ class WebModule : AbstractModule() {
         val multibinder = Multibinder.newSetBinder(binder(), Controller::class.java)
         multibinder.addBinding().to(GameController::class.java)
         multibinder.addBinding().to(UserController::class.java)
+        multibinder.addBinding().to(OpponentSearchController::class.java)
     }
 }

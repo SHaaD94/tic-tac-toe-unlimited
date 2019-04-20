@@ -7,6 +7,7 @@ import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
+import io.ktor.features.StatusPages
 import io.ktor.jackson.jackson
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
@@ -24,9 +25,12 @@ class WebStarter @Inject constructor(private val controllers: @JvmSuppressWildca
                 dateFormat = DateFormat.getDateInstance()
             }
         }
+        install(StatusPages) {
+            controllers.forEach { it.setupExceptionHandling(this) }
+        }
 
         routing {
-            controllers.forEach { it.setup(this) }
+            controllers.forEach { it.routingSetup(this) }
         }
     }
 

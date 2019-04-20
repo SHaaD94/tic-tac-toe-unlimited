@@ -25,9 +25,23 @@ Game statuses:
     "player_id" : 1
 }
 ```
+
 2. GET /api/1.0/games/{session_id} - get session info
 
-4. POST /api/1.0/games/{session_id} - adds user movement
+3. POST /api/1.0/opponents-search - start opponent search
+```
+{
+    "player_id" : 1
+}
+```
+4. DELETE /api/1.0/opponents-search - cancel opponent search
+```
+{
+    "player_id" : 1
+}
+```
+
+5. POST /api/1.0/games/{session_id} - adds user movement
 ```
 {   
     "player_id" : 1,
@@ -36,7 +50,7 @@ Game statuses:
 }
 ```
 
-5. GET /api/1.0/games/{session_id}/movements?after=1 - get movement history after movement id *after*
+6. GET /api/1.0/games/{session_id}/movements?after=1 - get movement history after movement id *after*
 
 ### 3. HighScore
 

@@ -24,6 +24,8 @@ data class Game(
     val status: GameStatus
 )
 
+data class GameParticipants(val firstPlayerId: UserId, val secondPlayerId: UserId)
+
 data class MoveId(val id: Long)
 data class Coordinate(val x: Int, val y: Int)
 data class Move(val moveId: MoveId, val gameId: GameId, val playerId: UserId, val coordinate: Coordinate)
