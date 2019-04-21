@@ -2,6 +2,7 @@ package com.github.shaad.backend.service
 
 import com.github.shaad.backend.domain.UserId
 import com.github.shaad.backend.dto.UserDTO
+import com.github.shaad.backend.exceptions.UserNotFoundException
 import com.github.shaad.backend.repository.RepositoryFactory
 import com.google.inject.AbstractModule
 import com.google.inject.Inject
@@ -9,7 +10,7 @@ import com.google.inject.Singleton
 
 interface UserService {
     fun createUser(nick: String): UserId
-    fun getUser(id: UserId): UserDTO?
+    fun getUser(id: UserId): UserDTO
 }
 
 class UserServiceImpl @Inject constructor(private val repositoryFactory: RepositoryFactory) : UserService {
@@ -21,9 +22,9 @@ class UserServiceImpl @Inject constructor(private val repositoryFactory: Reposit
         }
     }
 
-    override fun getUser(id: UserId): UserDTO? {
+    override fun getUser(id: UserId): UserDTO {
         repositoryFactory.getUserRepository().use {
-            val user = it.getUser(id) ?: return null
+            val user = it.getUser(id) ?: throw UserNotFoundException(id)
             return UserDTO(user.id.id, user.nick.nick)
         }
     }

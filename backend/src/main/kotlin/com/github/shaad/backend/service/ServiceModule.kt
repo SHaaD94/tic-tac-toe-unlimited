@@ -7,5 +7,6 @@ class ServiceModule : AbstractModule() {
         install(UserServiceModule())
         install(OpponentSearchServiceModule())
         install(GameServiceModule())
+        install(GameValidatorModule())
     }
 }

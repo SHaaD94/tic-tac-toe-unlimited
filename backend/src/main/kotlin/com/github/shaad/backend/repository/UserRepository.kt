@@ -15,12 +15,11 @@ interface UserRepository : Repository {
     fun getUser(userId: UserId): User?
 }
 
-class UserRepositoryImpl : UserRepository, BaseRepository() {
-    companion object {
-        private val rwLock = ReentrantReadWriteLock()
-        private val users = ConcurrentHashMap<Long, User>()
-        private val idSeq = AtomicLong(0)
-    }
+class InMemoryUserRepositoryImpl : UserRepository, BaseRepository() {
+
+    private val rwLock = ReentrantReadWriteLock()
+    private val users = ConcurrentHashMap<Long, User>()
+    private val idSeq = AtomicLong(0)
 
     override fun createUser(nick: String): UserId {
         rwLock.write {

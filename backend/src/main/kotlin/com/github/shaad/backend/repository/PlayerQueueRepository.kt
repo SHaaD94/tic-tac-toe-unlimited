@@ -15,12 +15,10 @@ interface PlayerQueueRepository : Repository {
     fun isInQueue(id: UserId): Boolean
 }
 
-class PlayerQueueRepositoryImpl : PlayerQueueRepository, BaseRepository() {
-    companion object {
-        private val rwLock = ReentrantReadWriteLock()
-        private val innerQueue = ConcurrentLinkedQueue<UserId>()
-        private val playersInList = ConcurrentHashMap<UserId, Any>()
-    }
+class InMemoryPlayerQueueRepositoryImpl : PlayerQueueRepository, BaseRepository() {
+    private val rwLock = ReentrantReadWriteLock()
+    private val innerQueue = ConcurrentLinkedQueue<UserId>()
+    private val playersInList = ConcurrentHashMap<UserId, Any>()
 
     override fun enqueuePlayer(userId: UserId) {
         rwLock.write {

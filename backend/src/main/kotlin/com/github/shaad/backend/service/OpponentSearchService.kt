@@ -1,7 +1,7 @@
 package com.github.shaad.backend.service
 
 import com.github.shaad.backend.domain.UserId
-import com.github.shaad.backend.exceptions.UserNotFoundExcetion
+import com.github.shaad.backend.exceptions.UserNotFoundException
 import com.github.shaad.backend.repository.RepositoryFactory
 import com.google.inject.AbstractModule
 import com.google.inject.Inject
@@ -42,7 +42,7 @@ class OpponentSearchServiceImpl @Inject constructor(private val repositoryFactor
     private fun checkUserExistence(id: UserId) {
         repositoryFactory.getUserRepository().use {
             if (it.getUser(id) == null) {
-                throw UserNotFoundExcetion(id)
+                throw UserNotFoundException(id)
             }
         }
     }

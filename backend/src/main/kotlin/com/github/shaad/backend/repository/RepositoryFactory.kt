@@ -19,17 +19,21 @@ interface RepositoryFactory {
     fun getHighScoreRepository(): HighScoreRepository
 }
 
-private class RepositoryFactoryImpl : RepositoryFactory {
+private class InMemoryRepositoryFactory : RepositoryFactory {
+    private val gameRepository = InMemoryGameRepository()
+    private val playerQueueRepository = InMemoryPlayerQueueRepositoryImpl()
+    private val userRepository = InMemoryUserRepositoryImpl()
+
     override fun getGameRepository(): GameRepository {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return gameRepository
     }
 
     override fun getPlayerQueueRepository(): PlayerQueueRepository {
-        return PlayerQueueRepositoryImpl()
+        return playerQueueRepository
     }
 
     override fun getUserRepository(): UserRepository {
-        return UserRepositoryImpl()
+        return userRepository
     }
 
     override fun getHighScoreRepository(): HighScoreRepository {
@@ -37,8 +41,8 @@ private class RepositoryFactoryImpl : RepositoryFactory {
     }
 }
 
-class RepositoryModule : AbstractModule() {
+class InMemoryRepositoryModule : AbstractModule() {
     override fun configure() {
-        bind(RepositoryFactory::class.java).to(RepositoryFactoryImpl::class.java).`in`(Singleton::class.java)
+        bind(RepositoryFactory::class.java).to(InMemoryRepositoryFactory::class.java).`in`(Singleton::class.java)
     }
 }
