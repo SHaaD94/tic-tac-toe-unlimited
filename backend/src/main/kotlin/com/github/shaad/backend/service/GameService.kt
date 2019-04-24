@@ -51,7 +51,12 @@ private class GameServiceImpl @Inject constructor(
         //todo refactor this later
         if (enqueued) {
             return GameDTO(
-                null, null, null, null, null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
                 "SearchInProgress"
             )
         }
@@ -93,7 +98,8 @@ private class GameServiceImpl @Inject constructor(
 
     override fun getMovesAfter(gameId: GameId, moveId: MoveId?): Collection<MoveDTO> {
         repositoryFactory.getGameRepository().use {
-            return it.getGameMoves(gameId, moveId).map { MoveDTO(it.playerId.id, it.coordinate.x, it.coordinate.y) }
+            return it.getGameMoves(gameId, moveId)
+                .map { MoveDTO(it.playerId.id, it.coordinate.x, it.coordinate.y, it.moveId!!.id) }
         }
     }
 

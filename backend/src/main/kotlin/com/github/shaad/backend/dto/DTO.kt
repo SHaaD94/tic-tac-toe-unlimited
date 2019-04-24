@@ -40,6 +40,8 @@ class GameDTO(
     val firstPlayerSymbol: Char?,
     @JsonProperty("second_player_symbol")
     val secondPlayerSymbol: Char?,
+    @JsonProperty("current_turn_player_id")
+    val currentTurnPlayerId: Long?,
     @JsonProperty("status")
     val status: String
 )
@@ -50,9 +52,10 @@ class MoveDTO(
     @JsonProperty("x")
     val x: Int,
     @JsonProperty("y")
-    val y: Int
+    val y: Int,
+    @JsonProperty("move_id")
+    val moveId: Long? = null
 )
-
 
 class MoveValidationDTO(
     @JsonProperty("status")

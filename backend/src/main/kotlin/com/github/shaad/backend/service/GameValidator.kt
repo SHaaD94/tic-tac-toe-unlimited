@@ -12,7 +12,8 @@ interface GameValidator {
 
 private class GameValidatorImpl : GameValidator {
     override fun validate(moves: List<Move>): GameValidationResult {
-        TODO()
+        //todo
+        return GameValidationResult(false, null)
     }
 }
 

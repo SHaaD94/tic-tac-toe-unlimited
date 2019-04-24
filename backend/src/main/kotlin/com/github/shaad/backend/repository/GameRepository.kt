@@ -78,6 +78,7 @@ class InMemoryGameRepository : GameRepository, BaseRepository() {
                         firstPlayerSymbol,
                         secondUserId,
                         secondPlayerSymbol,
+                        firstUserId,
                         GameStatus.InProgress
                     ),
                     LinkedList()
@@ -89,23 +90,24 @@ class InMemoryGameRepository : GameRepository, BaseRepository() {
     override fun addMove(gameId: GameId, move: Move) {
         rwLock.write {
             val gameWithMoves = id2Game[gameId] ?: throw GameNotFoundException(gameId)
-            val moves = gameWithMoves.moves
 
-            if (moves.isEmpty()) {
-                moves.add(move)
-                return
+            if (gameWithMoves.game.currentTurnUserId != move.playerId) {
+                throw NotYourTurnException()
             }
+
+            val moves = gameWithMoves.moves
 
             if (moves.any { it.coordinate == move.coordinate }) {
                 throw CoordinateIsAlreadyTakenException(move.coordinate)
             }
 
-            val lastMove = moves.maxBy { it.moveId!!.id }!!
-            if (lastMove.playerId == move.playerId) {
-                throw NotYourTurnException()
-            }
-
             moves.add(move.copy(moveId = MoveId(gameWithMoves.moveCounter.incrementAndGet())))
+            id2Game[gameId] = gameWithMoves.copy(
+                game = gameWithMoves.game.copy(
+                    currentTurnUserId =
+                    if (gameWithMoves.game.firstPlayerId == move.playerId) gameWithMoves.game.secondPlayerId else gameWithMoves.game.firstPlayerId
+                )
+            )
         }
     }
 

@@ -25,6 +25,7 @@ data class Game(
     val firstPlayerSymbol: PlayerSymbol,
     val secondPlayerId: UserId,
     val secondPlayerSymbol: PlayerSymbol,
+    val currentTurnUserId: UserId,
     val status: GameStatus,
     val winner: UserId? = null
 ) {
@@ -34,6 +35,7 @@ data class Game(
         secondPlayerId.id,
         firstPlayerSymbol.value,
         secondPlayerSymbol.value,
+        currentTurnUserId.id,
         status.toString()
     )
 }
