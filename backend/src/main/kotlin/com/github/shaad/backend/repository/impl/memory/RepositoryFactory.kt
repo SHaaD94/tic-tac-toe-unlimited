@@ -1,23 +1,9 @@
-package com.github.shaad.backend.repository
+package com.github.shaad.backend.repository.impl.memory
 
+import com.github.shaad.backend.repository.*
 import com.google.inject.AbstractModule
 import com.google.inject.Singleton
 
-interface Repository : AutoCloseable {
-    fun commit()
-}
-
-abstract class BaseRepository : Repository {
-    override fun commit() = Unit
-    override fun close() = Unit
-}
-
-interface RepositoryFactory {
-    fun getGameRepository(): GameRepository
-    fun getPlayerQueueRepository(): PlayerQueueRepository
-    fun getUserRepository(): UserRepository
-    fun getHighScoreRepository(): HighScoreRepository
-}
 
 private class InMemoryRepositoryFactory : RepositoryFactory {
     private val gameRepository = InMemoryGameRepository()

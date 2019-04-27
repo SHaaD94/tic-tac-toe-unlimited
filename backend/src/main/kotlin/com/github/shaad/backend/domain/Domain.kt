@@ -18,6 +18,7 @@ enum class PlayerSymbol {
     val value = this.name[0]
 }
 
+data class WinCondition(val symbolsInRow: Int)
 data class GameId(val id: Long)
 data class Game(
     val id: GameId,
@@ -27,6 +28,7 @@ data class Game(
     val secondPlayerSymbol: PlayerSymbol,
     val currentTurnUserId: UserId,
     val status: GameStatus,
+    val winCondition: WinCondition,
     val winner: UserId? = null
 ) {
     fun toDTO() = GameDTO(

@@ -1,34 +1,17 @@
-package com.github.shaad.backend.repository
+package com.github.shaad.backend.repository.impl.memory
 
 import com.github.shaad.backend.domain.*
 import com.github.shaad.backend.exceptions.CoordinateIsAlreadyTakenException
 import com.github.shaad.backend.exceptions.GameNotFoundException
 import com.github.shaad.backend.exceptions.NotYourTurnException
+import com.github.shaad.backend.repository.BaseRepository
+import com.github.shaad.backend.repository.GameRepository
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
-
-interface GameRepository : Repository {
-    fun getNotFinishedGameForUser(userId: UserId): Game?
-
-    fun getGame(gameId: GameId): Game?
-
-    fun createGame(
-        firstUserId: UserId,
-        secondUserId: UserId,
-        firstPlayerSymbol: PlayerSymbol,
-        secondPlayerSymbol: PlayerSymbol
-    ): GameId
-
-    fun addMove(gameId: GameId, move: Move)
-
-    fun getGameMoves(gameId: GameId, fromMove: MoveId? = null): List<Move>
-
-    fun updateGame(gameId: GameId, status: GameStatus, winner: UserId?)
-}
 
 class InMemoryGameRepository : GameRepository, BaseRepository() {
     private data class GameWithMoves(
@@ -79,7 +62,8 @@ class InMemoryGameRepository : GameRepository, BaseRepository() {
                         secondUserId,
                         secondPlayerSymbol,
                         firstUserId,
-                        GameStatus.InProgress
+                        GameStatus.InProgress,
+                        WinCondition(5)
                     ),
                     LinkedList()
                 )

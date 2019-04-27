@@ -1,5 +1,6 @@
 package com.github.shaad.backend.service
 
+import com.github.shaad.backend.domain.Game
 import com.github.shaad.backend.domain.Move
 import com.github.shaad.backend.domain.UserId
 import com.google.inject.AbstractModule
@@ -7,11 +8,11 @@ import com.google.inject.AbstractModule
 data class GameValidationResult(val isFinished: Boolean, val winner: UserId?)
 
 interface GameValidator {
-    fun validate(moves: List<Move>): GameValidationResult
+    fun validate(game: Game, moves: List<Move>): GameValidationResult
 }
 
-private class GameValidatorImpl : GameValidator {
-    override fun validate(moves: List<Move>): GameValidationResult {
+internal class GameValidatorImpl : GameValidator {
+    override fun validate(game: Game, moves: List<Move>): GameValidationResult {
         //todo
         return GameValidationResult(false, null)
     }

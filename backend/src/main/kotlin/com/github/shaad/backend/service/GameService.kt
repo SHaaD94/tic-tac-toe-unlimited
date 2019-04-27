@@ -83,9 +83,10 @@ private class GameServiceImpl @Inject constructor(
 
     override fun addMoveAndValidateGame(gameId: GameId, move: Move): MoveValidationDTO {
         repositoryFactory.getGameRepository().use {
+            val game = it.getGame(gameId) ?: throw GameNotFoundException(gameId)
             it.addMove(gameId, move)
 
-            val validationResult = gameValidator.validate(it.getGameMoves(gameId))
+            val validationResult = gameValidator.validate(game, it.getGameMoves(gameId))
             if (validationResult.isFinished) {
                 it.updateGame(gameId, GameStatus.Finished, validationResult.winner!!)
             }

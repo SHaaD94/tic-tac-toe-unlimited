@@ -1,6 +1,6 @@
 package com.github.shaad.backend
 
-import com.github.shaad.backend.repository.InMemoryRepositoryModule
+import com.github.shaad.backend.repository.impl.memory.InMemoryRepositoryModule
 import com.github.shaad.backend.service.ServiceModule
 import com.github.shaad.backend.web.WebModule
 import com.github.shaad.backend.web.WebStarter

@@ -1,19 +1,17 @@
-package com.github.shaad.backend.repository
+package com.github.shaad.backend.repository.impl.memory
 
 import com.github.shaad.backend.domain.User
 import com.github.shaad.backend.domain.UserId
 import com.github.shaad.backend.domain.UserNick
 import com.github.shaad.backend.domain.UserScore
+import com.github.shaad.backend.repository.BaseRepository
+import com.github.shaad.backend.repository.UserRepository
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-interface UserRepository : Repository {
-    fun createUser(nick: String): UserId
-    fun getUser(userId: UserId): User?
-}
 
 class InMemoryUserRepositoryImpl : UserRepository, BaseRepository() {
 

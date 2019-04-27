@@ -1,19 +1,15 @@
-package com.github.shaad.backend.repository
+package com.github.shaad.backend.repository.impl.memory
 
 import com.github.shaad.backend.domain.GameParticipants
 import com.github.shaad.backend.domain.UserId
+import com.github.shaad.backend.repository.BaseRepository
+import com.github.shaad.backend.repository.PlayerQueueRepository
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-interface PlayerQueueRepository : Repository {
-    fun enqueuePlayer(userId: UserId)
-    fun removePlayerFromQueue(userId: UserId)
-    fun getPairOfPlayers(): GameParticipants?
-    fun isInQueue(id: UserId): Boolean
-}
 
 class InMemoryPlayerQueueRepositoryImpl : PlayerQueueRepository, BaseRepository() {
     private val rwLock = ReentrantReadWriteLock()
