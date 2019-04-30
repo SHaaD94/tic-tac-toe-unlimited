@@ -43,7 +43,9 @@ class GameDTO(
     @JsonProperty("current_turn_player_id")
     val currentTurnPlayerId: Long?,
     @JsonProperty("status")
-    val status: String
+    val status: String,
+    @JsonProperty("winner_id")
+    val winnerId: Long?
 )
 
 class MoveDTO(

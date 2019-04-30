@@ -76,7 +76,6 @@ def main():
             raise Exception("Failed to get history " + r.text)
 
         for new_move in r.json():
-            move_symbol = ''
             if new_move['player_id'] == my_user_id:
                 move_symbol = my_symbol
             else:
@@ -98,6 +97,15 @@ def main():
                           json={'player_id': my_user_id, 'x': x, 'y': y})
         if r.status_code != 200:
             print("Failed!" + r.text)
+
+        validation_response = r.json()
+        if validation_response['winner_id'] is not None:
+            winner_id = validation_response['winner_id']
+            if winner_id == my_user_id:
+                print("Winner winner chicken dinner")
+            else:
+                print("You lose!")
+            break
 
 
 def draw_board(moves):

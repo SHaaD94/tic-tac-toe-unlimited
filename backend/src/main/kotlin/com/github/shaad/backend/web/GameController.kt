@@ -11,6 +11,7 @@ import com.github.shaad.backend.service.GameService
 import com.google.inject.Inject
 import io.ktor.application.call
 import io.ktor.features.StatusPages
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Routing
@@ -50,16 +51,16 @@ class GameController @Inject constructor(private val gameService: GameService) :
 
     override val setupExceptionHandling: StatusPages.Configuration.() -> Unit = {
         exception<NotYourTurnException> {
-            call.respond(ErrorDTO(it.message!!))
+            call.respond(HttpStatusCode.BadRequest, ErrorDTO(it.message!!))
         }
         exception<CoordinateIsAlreadyTakenException> {
-            call.respond(ErrorDTO(it.message!!))
+            call.respond(HttpStatusCode.BadRequest, ErrorDTO(it.message!!))
         }
         exception<WrongPlayerForGameException> {
-            call.respond(ErrorDTO(it.message!!))
+            call.respond(HttpStatusCode.BadRequest, ErrorDTO(it.message!!))
         }
         exception<GameIsAlreadyFinishedException> {
-            call.respond(ErrorDTO(it.message!!))
+            call.respond(HttpStatusCode.BadRequest, ErrorDTO(it.message!!))
         }
     }
 }

@@ -19,6 +19,7 @@ enum class PlayerSymbol {
 }
 
 data class WinCondition(val symbolsInRow: Int)
+data class GameState(val board: Map<Coordinate, PlayerSymbol> = HashMap())
 data class GameId(val id: Long)
 data class Game(
     val id: GameId,
@@ -27,10 +28,17 @@ data class Game(
     val secondPlayerId: UserId,
     val secondPlayerSymbol: PlayerSymbol,
     val currentTurnUserId: UserId,
+    val gameState: GameState,
     val status: GameStatus,
     val winCondition: WinCondition,
     val winner: UserId? = null
 ) {
+    fun getPlayerSymbol(userId: UserId) = when {
+        firstPlayerId == userId -> firstPlayerSymbol
+        secondPlayerId == userId -> secondPlayerSymbol
+        else -> throw RuntimeException("Wrong user for game")
+    }
+
     fun toDTO() = GameDTO(
         id.id,
         firstPlayerId.id,
@@ -38,7 +46,8 @@ data class Game(
         firstPlayerSymbol.value,
         secondPlayerSymbol.value,
         currentTurnUserId.id,
-        status.toString()
+        status.toString(),
+        winner?.id
     )
 }
 

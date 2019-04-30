@@ -62,6 +62,7 @@ class InMemoryGameRepository : GameRepository, BaseRepository() {
                         secondUserId,
                         secondPlayerSymbol,
                         firstUserId,
+                        GameState(),
                         GameStatus.InProgress,
                         WinCondition(5)
                     ),
@@ -88,6 +89,15 @@ class InMemoryGameRepository : GameRepository, BaseRepository() {
             moves.add(move.copy(moveId = MoveId(gameWithMoves.moveCounter.incrementAndGet())))
             id2Game[gameId] = gameWithMoves.copy(
                 game = gameWithMoves.game.copy(
+                    gameState = gameWithMoves.game.gameState.let {
+                        it.copy(
+                            it.board.plus(
+                                move.coordinate to gameWithMoves.game.getPlayerSymbol(
+                                    move.playerId
+                                )
+                            )
+                        )
+                    },
                     currentTurnUserId =
                     if (gameWithMoves.game.firstPlayerId == move.playerId) gameWithMoves.game.secondPlayerId else gameWithMoves.game.firstPlayerId
                 )

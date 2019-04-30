@@ -4,6 +4,7 @@ import com.github.shaad.backend.domain.*
 import com.github.shaad.backend.dto.GameDTO
 import com.github.shaad.backend.dto.MoveDTO
 import com.github.shaad.backend.dto.MoveValidationDTO
+import com.github.shaad.backend.exceptions.GameIsAlreadyFinishedException
 import com.github.shaad.backend.exceptions.GameNotFoundException
 import com.github.shaad.backend.exceptions.NoGameForUserInProgressException
 import com.github.shaad.backend.exceptions.UserNotFoundException
@@ -57,7 +58,8 @@ private class GameServiceImpl @Inject constructor(
                 null,
                 null,
                 null,
-                "SearchInProgress"
+                "SearchInProgress",
+                null
             )
         }
         return repositoryFactory.getGameRepository().use {
@@ -68,7 +70,7 @@ private class GameServiceImpl @Inject constructor(
     override fun createGame(firstUserId: UserId, secondUserId: UserId): GameId {
         val randomInt = Random.nextInt()
         val firstSymbol = if (randomInt % 2 == 0) PlayerSymbol.O else PlayerSymbol.X
-        val secondSymbol = if (randomInt % 2 == 1) PlayerSymbol.O else PlayerSymbol.X
+        val secondSymbol = if (firstSymbol == PlayerSymbol.O) PlayerSymbol.X else PlayerSymbol.O
 
         return repositoryFactory.getGameRepository().use {
             it.createGame(firstUserId, secondUserId, firstSymbol, secondSymbol)
@@ -84,9 +86,12 @@ private class GameServiceImpl @Inject constructor(
     override fun addMoveAndValidateGame(gameId: GameId, move: Move): MoveValidationDTO {
         repositoryFactory.getGameRepository().use {
             val game = it.getGame(gameId) ?: throw GameNotFoundException(gameId)
+            if (game.status == GameStatus.Finished) {
+                throw GameIsAlreadyFinishedException(game.id)
+            }
             it.addMove(gameId, move)
 
-            val validationResult = gameValidator.validate(game, it.getGameMoves(gameId))
+            val validationResult = gameValidator.validate(game, move)
             if (validationResult.isFinished) {
                 it.updateGame(gameId, GameStatus.Finished, validationResult.winner!!)
             }
